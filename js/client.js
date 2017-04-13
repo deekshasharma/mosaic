@@ -61,7 +61,7 @@ function drawTiles(allTiles){
 
 function createMosaic(allTiles) {
     for(var i = 0; i < allTiles.length; i++){
-        // Get the color of the tile image
+        // Get the color of the tile image, though this is not the average color
         var image       = document.createElement('img');
         image.xdraw     = allTiles[i].x;
         image.ydraw     = allTiles[i].y;
