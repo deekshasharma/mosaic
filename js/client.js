@@ -1,8 +1,4 @@
 var resultCanvas, resultContext;
-window.onload = function () {
-        resultCanvas     = document.getElementById('result-canvas'),
-        resultContext = canvas.getContext('2d');
-}
 
 function loadFile(imageFile){
     var fileReader = new FileReader();
@@ -38,12 +34,13 @@ function splitImage(image){
                 context.drawImage(image, col * TILE_WIDTH, row * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT, 0, 0, TILE_WIDTH, TILE_HEIGHT);
                 tiles.push({
                     imageUrl   : canvas.toDataURL(),
-                    top        : col * TILE_WIDTH,
-                    left       : row * TILE_HEIGHT
+                    x          : col * TILE_WIDTH,
+                    y          : row * TILE_HEIGHT
                 });
             }
             if(tiles.length > 0){
-                drawTiles(tiles);
+                // drawTiles(tiles);
+                getColorForTile(tiles);
             }
         }
     }
@@ -52,13 +49,29 @@ function splitImage(image){
 function drawTiles(allTiles){
     for(var i = 0; i < allTiles.length; i++){
         var image       = document.createElement('img');
-        image.xdraw     = allTiles[i].top;
-        image.ydraw     = allTiles[i].left;
+        image.xdraw     = allTiles[i].x;
+        image.ydraw     = allTiles[i].y;
         image.onload    = function () {
             resultContext.drawImage(this, this.xdraw, this.ydraw);
         };
         image.src       = allTiles[i].imageUrl;
     }
+}
+
+function getColorForTile(allTiles) {
+    for(var i = 0; i < allTiles.length; i++){
+        var image       = document.createElement('img');
+        image.xdraw     = allTiles[i].x;
+        image.ydraw     = allTiles[i].y;
+        image.onload    = function () {
+            resultContext.drawImage(this, this.xdraw, this.ydraw);
+        };
+        image.src       = allTiles[i].imageUrl;
+
+        console.log(resultContext.getImageData(this.xdraw, this.ydraw, TILE_WIDTH, TILE_HEIGHT));
+    }
+
+    
 }
 
 
