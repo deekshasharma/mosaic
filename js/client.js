@@ -36,11 +36,10 @@ function splitImage(image){
                 canvas.height = TILE_HEIGHT;
                 var context = canvas.getContext('2d');
                 context.drawImage(image, col * TILE_WIDTH, row * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT, 0, 0, TILE_WIDTH, TILE_HEIGHT);
-                // context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
                 tiles.push({
                     imageUrl   : canvas.toDataURL(),
-                    x        : col * TILE_WIDTH,
-                    y        : row * TILE_HEIGHT
+                    x          : col * TILE_WIDTH,
+                    y          : row * TILE_HEIGHT
                 });
             }
             if(tiles.length > 0){
@@ -56,8 +55,6 @@ function drawTiles(allTiles){
         var image       = document.createElement('img');
         image.xdraw         = allTiles[i].x;
         image.ydraw         = allTiles[i].y;
-        // image.width     = TILE_WIDTH;
-        // image.height    = TILE_HEIGHT;
         image.onload    = function () {
             resultContext.drawImage(this, this.xdraw, this.ydraw);
         };
