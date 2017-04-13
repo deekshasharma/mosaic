@@ -21,13 +21,13 @@ function loadFile(imageFile){
 
 function splitImage(image){
     image.onload = function () {
+        resultCanvas = document.getElementById('result-canvas');
         resultCanvas.width = image.width;
         resultCanvas.height = image.height;
-        resultCanvas = document.getElementById('result-canvas');
         resultContext = resultCanvas.getContext('2d');
 
-        const numRows       = Math.floor(image.height/TILE_HEIGHT);
-        const numTilePerRow = Math.floor(image.width/TILE_WIDTH);
+        const numRows       = Math.round(image.height/TILE_HEIGHT);
+        const numTilePerRow = Math.round(image.width/TILE_WIDTH);
         for(var row = 0; row < numRows; ++row){
             var tiles = [];
             for(var col = 0; col < numTilePerRow; ++col){
@@ -38,8 +38,8 @@ function splitImage(image){
                 context.drawImage(image, col * TILE_WIDTH, row * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT, 0, 0, TILE_WIDTH, TILE_HEIGHT);
                 tiles.push({
                     imageUrl   : canvas.toDataURL(),
-                    x          : col * TILE_WIDTH,
-                    y          : row * TILE_HEIGHT
+                    top        : col * TILE_WIDTH,
+                    left       : row * TILE_HEIGHT
                 });
             }
             if(tiles.length > 0){
@@ -49,15 +49,16 @@ function splitImage(image){
     }
 }
 
-
 function drawTiles(allTiles){
     for(var i = 0; i < allTiles.length; i++){
         var image       = document.createElement('img');
-        image.xdraw         = allTiles[i].x;
-        image.ydraw         = allTiles[i].y;
+        image.xdraw     = allTiles[i].top;
+        image.ydraw     = allTiles[i].left;
         image.onload    = function () {
             resultContext.drawImage(this, this.xdraw, this.ydraw);
         };
         image.src       = allTiles[i].imageUrl;
     }
 }
+
+
