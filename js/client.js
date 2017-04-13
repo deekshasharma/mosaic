@@ -65,13 +65,11 @@ function getColorForTile(allTiles) {
         image.ydraw     = allTiles[i].y;
         image.onload    = function () {
             resultContext.drawImage(this, this.xdraw, this.ydraw);
+            var data = resultContext.getImageData(this.xdraw, this.ydraw, TILE_WIDTH, TILE_HEIGHT).data;
+            var hex = (256 + data[0]).toString(16).substr(1) +((1 << 24) + (data[1] << 16) | (data[2] << 8) | data[3]).toString(16).substr(1)
+            console.log(data[0]+','+data[1]+','+data[2]+','+data[3]+'='+hex);
         };
         image.src       = allTiles[i].imageUrl;
-
-        console.log(resultContext.getImageData(this.xdraw, this.ydraw, TILE_WIDTH, TILE_HEIGHT));
     }
-
-    
 }
-
 
