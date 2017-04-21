@@ -50,8 +50,12 @@ function splitImage(image){
 }
 
 
-
+/**
+ * Creates a mosaic for the images tiles.
+ * @param allTiles
+ */
 function createMosaic(allTiles) {
+
     for(var i = 0; i < allTiles.length; i++){
         // Get the color of the tile image, though this is not the average color
         var image       = document.createElement('img');
@@ -68,6 +72,7 @@ function createMosaic(allTiles) {
             var tileImageX = this.xdraw;
             var tileImageY = this.ydraw;
             var tileImage = new Image();
+
 
             if(!!window.Worker) {
                 var worker = new Worker('js/myWorker.js');
