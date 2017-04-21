@@ -1,7 +1,3 @@
-/**
- * Created by deeksha on 21/04/17.
- */
-
 onmessage = function (message) {
     getThisTile(message.data.url);
     function getThisTile(url) {

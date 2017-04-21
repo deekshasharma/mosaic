@@ -76,8 +76,7 @@ function createMosaic(allTiles) {
                 };
                 worker.postMessage(message);
                 worker.onmessage = function (event) {
-                    var response = event.data;
-                    var svg =  'data:image/svg+xml;base64,'+window.btoa(response);
+                    var svg =  'data:image/svg+xml;base64,'+window.btoa(event.data);
                     tileImage.onload = function () {
                         resultContext.drawImage(tileImage, tileImageX, tileImageY);
                         worker.terminate();
@@ -122,47 +121,3 @@ function getAvgHexColor(imageData) {
         avgAlpha    = Math.round(alpha/totalPixelPerColor);
     return (256 + avgRed).toString(16).substr(1) +((1 << 24) + (avgGreen << 16) | (avgBlue << 8) | avgAlpha).toString(16).substr(1);
 }
-
-
-
-
-// function createMosaic(allTiles) {
-//     for(var i = 0; i < allTiles.length; i++){
-//         // Get the color of the tile image, though this is not the average color
-//         var image       = document.createElement('img');
-//         image.xdraw     = allTiles[i].x;
-//         image.ydraw     = allTiles[i].y;
-//         image.onload    = function () {
-//
-//             var tileCanvas = document.createElement('canvas');
-//             var context = tileCanvas.getContext('2d');
-//             context.drawImage(this, this.xdraw, this.ydraw);
-//             var data = context.getImageData(this.xdraw, this.ydraw, TILE_WIDTH, TILE_HEIGHT).data;
-//             var hex = (256 + data[0]).toString(16).substr(1) +((1 << 24) + (data[1] << 16) | (data[2] << 8) | data[3]).toString(16).substr(1);
-//
-//             // Get the tile from Server
-//             var url = 'http://localhost:8765'+'/color/'+hex;
-//             var request = new XMLHttpRequest();
-//             request.open('GET', url, true);
-//
-//             //Location to place the tile
-//             var tileImageX = this.xdraw;
-//             var tileImageY = this.ydraw;
-//
-//             // Place the svg received from server to the canvas
-//             request.onload = function (response) {
-//                 if (request.readyState == XMLHttpRequest.DONE) {
-//                     var mySrc = 'data:image/svg+xml;base64,'+window.btoa(request.responseText);
-//                     console.log(request.responseText);
-//                     var source = new Image();
-//                     source.onload = function() {
-//                         resultContext.drawImage(source, tileImageX, tileImageY);
-//                     };
-//                     source.src = mySrc;
-//                 }
-//             };
-//             request.send(null);
-//         };
-//         image.src = allTiles[i].imageUrl;
-//     }
-// }
