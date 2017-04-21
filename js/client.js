@@ -65,6 +65,10 @@ function createMosaic(allTiles) {
             var data = context.getImageData(this.xdraw, this.ydraw, TILE_WIDTH, TILE_HEIGHT).data;
             var hex = getAvgHexColor(data);
 
+            var tileImageX = this.xdraw;
+            var tileImageY = this.ydraw;
+            var tileImage = new Image();
+
             if(!!window.Worker) {
                 var worker = new Worker('js/myWorker.js');
                 var message = {
@@ -72,11 +76,8 @@ function createMosaic(allTiles) {
                 };
                 worker.postMessage(message);
                 worker.onmessage = function (event) {
-                    console.log(event.data)
-                    var svg =  event.data.svg+window.btoa(event.data.responseText);
-                    var tileImageX = this.xdraw;
-                    var tileImageY = this.ydraw;
-                    var tileImage = new Image();
+                    var response = event.data;
+                    var svg =  'data:image/svg+xml;base64,'+window.btoa(response);
                     tileImage.onload = function () {
                         resultContext.drawImage(tileImage, tileImageX, tileImageY);
                         worker.terminate();
