@@ -1,5 +1,9 @@
-var resultCanvas, resultContext;
+var resultContext;
 
+/**
+ * Loads given image on the screen
+ * @param imageFile
+ */
 function loadFile(imageFile){
     var fileReader = new FileReader();
     if(imageFile){
@@ -21,7 +25,7 @@ function loadFile(imageFile){
  */
 function splitImage(image){
     image.onload = function () {
-        resultCanvas = document.getElementById('result-canvas');
+        var resultCanvas = document.getElementById('result-canvas');
         resultCanvas.width = image.width;
         resultCanvas.height = image.height;
         resultContext = resultCanvas.getContext('2d');
@@ -107,22 +111,19 @@ function getAvgHexColor(imageData) {
     //Each pixel will have 4 colors.
     var red     = 0,
         green   = 0,
-        blue    = 0,
-        alpha   = 0;
+        blue    = 0
 
     //Total pixels in imageData = TILE_HEIGHT x TILE_WIDTH x 4colors
     for(var i = 0; i < imageData.length; i += 4){
         red     += imageData[i];
         green   += imageData[i+1];
         blue    += imageData[i+2];
-        alpha   += imageData[i+3];
     }
 
     var totalPixelPerColor = imageData.length/4;
 
     var avgRed      = Math.round(red/totalPixelPerColor),
         avgGreen    = Math.round(green/totalPixelPerColor),
-        avgBlue     = Math.round(blue/totalPixelPerColor),
-        avgAlpha    = Math.round(alpha/totalPixelPerColor);
-    return (256 + avgRed).toString(16).substr(1) +((1 << 24) + (avgGreen << 16) | (avgBlue << 8) | avgAlpha).toString(16).substr(1);
+        avgBlue     = Math.round(blue/totalPixelPerColor);
+    return (256 + avgRed).toString(16).substr(1) +((1 << 24) + (avgGreen << 16) | (avgBlue << 8)).toString(16).substr(1);
 }
