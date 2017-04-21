@@ -93,6 +93,11 @@ function createMosaic(allTiles) {
 }
 
 
+/**
+ * Calculates the average color from the given imageData
+ * @param imageData
+ * @returns {string}
+ */
 function getAvgHexColor(imageData) {
     //Each pixel will have 4 colors.
     var red     = 0,
